@@ -6,6 +6,8 @@ import webbrowser
 import os, os.path
 import smtplib
 import random
+import win32gui
+import win32con
 try:
     
     engine=pyttsx3.init('sapi5')
@@ -86,12 +88,19 @@ try:
                 speak("We set your PC to sleeping mode")
                 os.system("Rundll32.exe Powrprof.dll,SetSuspendState Sleep")
             elif "sleep" in querry or "sleap" in querry:
-                speak("We set your PC to sleeping mode")
-                os.system("Rundll32.exe Powrprof.dll,SetSuspendState Sleep")
+                speak("We set your PC to sleeping mode or turn off your screen")
+                win32gui.SendMessage(win32con.HWND_BROADCAST,win32con.WM_SYSCOMMAND, win32con.SC_MONITORPOWER, 2)
+            elif "open screen" in querry or "openscreen" in querry or "screen" in querry:
+                speak("We open your screen")
+                win32gui.SendMessage(win32con.HWND_BROADCAST,
+                win32con.WM_SYSCOMMAND, win32con.SC_MONITORPOWER, -1)
+                
             elif "vscode" in querry or "vs code" in querry:
                 speak("Vs code open to you Vicky")
 
                 os.system("code .")
+            
+            
 
                 
             # end
@@ -207,5 +216,12 @@ try:
                     elif "restart Computer" in querry:
                         speak("We restarting your PC")
                         os.system("shutdown /r /t 1")
+                    elif "sleep" in querry or "sleap" in querry:
+                        speak("We set your PC to sleeping mode or turn off your screen")
+                        win32gui.SendMessage(win32con.HWND_BROADCAST,win32con.WM_SYSCOMMAND, win32con.SC_MONITORPOWER, 2)
+                    elif "open screen" in querry or "openscreen" in querry:
+                        speak("Screen has been turn")
+                        win32gui.SendMessage(win32con.HWND_BROADCAST,
+                        win32con.WM_SYSCOMMAND, win32con.SC_MONITORPOWER, -1)
 except Exception as e:
     speak('An unknown Error has been occured Check Your Connection Please')
